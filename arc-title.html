@@ -1,0 +1,81 @@
+<!--
+@license
+Copyright 2016 The Advanced REST client authors <arc@mulesoft.com>
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<!--
+`<arc-title>` An element that controls ARC's main title element depending on route params
+
+### Example
+
+```
+<header>
+  <h1>[[title]]</h1>
+</header>
+<app-location route="{{route}}" use-hash-as-path></app-location>
+<app-route route="{{route}}" pattern="/:base" data="{{routeData}}"></app-route>
+<arc-title base="[[routeData.base]]" page-title="{{title}}"></arc-title>
+```
+
+@group Logic Elements
+@element arc-title
+-->
+<script>
+Polymer({
+  is: 'arc-title',
+  properties: {
+    /**
+     * Base route in the application.
+     * Can be `request`, `socket`, `saved`, `history` and so on.
+     */
+    base: {
+      type: String,
+      observer: '_titleChanged'
+    },
+    // Default screen title
+    defaultTitle: {
+      type: String,
+      value: 'Advanced REST Client'
+    },
+    // Computed value of the title for ARC
+    pageTitle: {
+      type: String,
+      notify: true,
+      readOnly: true
+    }
+  },
+
+  ready: function() {
+    if (!this.pageTitle) {
+      this._titleChanged();
+    }
+  },
+
+  _titleChanged: function(base) {
+    var title;
+    switch (base) {
+      case 'request': title = 'Request'; break;
+      case 'socket': title = 'Web socket'; break;
+      case 'history': title = 'History'; break;
+      case 'saved': title = 'Saved requests'; break;
+      case 'project': title = 'Project details'; break;
+      case 'dataimport': title = 'Import / export data'; break;
+      case 'drive': title = 'Open from Drive'; break;
+      case 'settings': title = 'Settings'; break;
+      case 'about': title = 'About ARC'; break;
+      default:
+        title = this.defaultTitle;
+    }
+    this._setPageTitle(title);
+  }
+});
+</script>

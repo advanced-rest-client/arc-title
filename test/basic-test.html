@@ -1,0 +1,101 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/test-helpers.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+    <!-- Step 1: import the element to test -->
+    <link rel="import" href="../arc-title.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <arc-title></arc-title>
+      </template>
+    </test-fixture>
+
+    <script>
+    /* global suite, test, fixture, assert */
+    suite('basic', function() {
+      var element;
+      setup(function() {
+        element = fixture('basic');
+      });
+      test('Has default route', function() {
+        assert.equal(element.pageTitle, element.defaultTitle);
+      });
+
+      test('Sets title for request', function() {
+        element.base = 'request';
+        assert.equal(element.pageTitle, 'Request');
+      });
+
+      test('Sets title for socket', function() {
+        element.base = 'socket';
+        assert.equal(element.pageTitle, 'Web socket');
+      });
+
+      test('Sets title for history', function() {
+        element.base = 'history';
+        assert.equal(element.pageTitle, 'History');
+      });
+
+      test('Sets title for saved', function() {
+        element.base = 'saved';
+        assert.equal(element.pageTitle, 'Saved requests');
+      });
+
+      test('Sets title for project', function() {
+        element.base = 'project';
+        assert.equal(element.pageTitle, 'Project details');
+      });
+
+      test('Sets title for dataimport', function() {
+        element.base = 'dataimport';
+        assert.equal(element.pageTitle, 'Import / export data');
+      });
+
+      test('Sets title for settings', function() {
+        element.base = 'settings';
+        assert.equal(element.pageTitle, 'Settings');
+      });
+
+      test('Sets title for drive', function() {
+        element.base = 'drive';
+        assert.equal(element.pageTitle, 'Open from Drive');
+      });
+
+      test('Sets title for about', function() {
+        element.base = 'about';
+        assert.equal(element.pageTitle, 'About ARC');
+      });
+
+      test('Notifies change', function(done) {
+        element.addEventListener('page-title-changed', function clb(e) {
+          element.removeEventListener('page-title-changed', clb);
+          assert.typeOf(e.detail.value, 'string');
+          done();
+        });
+        element.base = 'drive';
+
+      });
+    });
+    </script>
+
+  </body>
+</html>
