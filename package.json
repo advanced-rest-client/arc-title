@@ -1,6 +1,6 @@
 {
   "name": "arc-title",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "Apache-2.0 OR CC-BY-4.0",
   "description": "An element that controls ARC's main title element depending on route params",
   "devDependencies": {
